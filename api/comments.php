@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-$stmt = $pdo->query('SELECT id, name, message, created_at FROM comments ORDER BY created_at DESC');
+$stmt = $pdo->query('SELECT id, name, message, rating, created_at FROM comments ORDER BY created_at DESC');
 $comments = $stmt->fetchAll();
 
 echo json_encode($comments);

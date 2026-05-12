@@ -12,9 +12,17 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 $name    = trim($_POST['name'] ?? '');
 $message = trim($_POST['message'] ?? '');
+$rating  = filter_input(INPUT_POST, 'rating', FILTER_VALIDATE_INT,
+    ['options' => ['min_range' => 1, 'max_range' => 5]]);
 
 $name    = strip_tags($name);
 $message = strip_tags($message);
+
+if ($rating === false || $rating === null) {
+    http_response_code(422);
+    echo json_encode(['status' => 'error', 'message' => 'Rating debe ser entre 1 y 5']);
+    exit;
+}
 
 if ($name === '' || $message === '') {
     http_response_code(400);
@@ -34,7 +42,7 @@ if (mb_strlen($message) > 500) {
     exit;
 }
 
-$stmt = $pdo->prepare('INSERT INTO comments (name, message) VALUES (:name, :message)');
-$stmt->execute(['name' => $name, 'message' => $message]);
+$stmt = $pdo->prepare('INSERT INTO comments (name, message, rating) VALUES (:name, :message, :rating)');
+$stmt->execute(['name' => $name, 'message' => $message, 'rating' => $rating]);
 
 echo json_encode(['success' => true, 'id' => (int) $pdo->lastInsertId()]);

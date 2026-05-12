@@ -101,6 +101,37 @@ button:hover {
   word-wrap: break-word;
 }
 
+.stars {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
+
+.stars input {
+  display: none;
+}
+
+.stars label {
+  font-size: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+  margin: 0;
+  transition: color 0.15s;
+}
+
+.stars label:hover,
+.stars label:hover ~ label,
+.stars input:checked ~ label {
+  color: #f59e0b;
+}
+
+.rating {
+  color: #f59e0b;
+  font-size: 1rem;
+  margin: 0.25rem 0;
+}
+
 .comment small {
   display: block;
   margin-top: 0.4rem;
